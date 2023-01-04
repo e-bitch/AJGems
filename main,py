@@ -1,0 +1,88 @@
+import requests
+import colorama
+import ctypes
+from time import sleep
+import string
+import random
+import os
+from webbrowser import open
+colorama.init()
+
+
+os.system('cls')
+ctypes.windll.kernel32.SetConsoleTitleW('AJ Gems | 0.2 | API: classic.animaljam.com | UPDATED ')
+print(colorama.Fore.CYAN + """
+
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣤⣤⣀⡴⠛⠉⢳⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⣤⣤⣤⣤⠖⠋⠁⠀⠀⠀⠀⠀⠀⠬⣷⠄⠀⠀⠀⠀⢰⣆⡀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⢸⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠠⣄⠀⠀⠀⠐⢿⣬⠟⠁⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠘⠧⠀⠀⠀⠀⠀⠀⠀⢤⠀⠀⢠⣤⡀⠀⠙⣆⠀⠀⠀⠀⠙⠀⠀⠀⠀
+⠀⠀⣸⡄⠀⠀⠀⢀⡏⠀⠀⣀⡀⠀⠀⠀⠛⠀⠀⠈⣯⠀⠀⢞⣛⣯⡉⠀⠀⠀⣸⢦⣄⡀
+⠀⠺⢿⡿⠛⠀⠀⢸⡇⠀⡀⣿⠟⠀⠀⠀⠀⠀⠀⠀⠈⠀⠀⠈⠉⢉⡏⠁⠀⠈⠛⡾⠋⠀
+⠀⢀⠈⠁⠀⠀⢀⣹⡷⣶⠂⠰⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⠋⠀⠀⠀⠀⠀⠀⠀
+⢀⡾⢦⡄⠀⠰⠋⣹⡷⠛⠁⠀⠀⠀⠀⠀⣠⣤⡤⠤⣄⠀⠀⠀⠸⣧⡀⠀⣴⠛⣦⠀⠀⠀
+⠈⠻⠟⠁⠀⠀⠘⠋⠻⢶⣤⣀⠀⠀⠀⠾⠡⠸⣇⠀⠀⠀⠀⠀⠀⠈⠳⣆⡿⠀⣿⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⠀⠀⠀⠀⠀⠐⠏⠃⠀⠀⠀⠀⠀⠀⠀⠙⣇⣸⠇⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠹⠋⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠹⠶⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀AJC Gems v 0.2
+""")
+
+print(colorama.Fore.RESET + " ")
+user_pass_length = 12
+cooldown = 60
+print(" ")
+referral_code = input("Your AJ Classic referral code: ")
+
+if len(referral_code) != 6:
+     print(colorama.Fore.RED + "Referral code incorrectly entered. Please try again.")
+     print(colorama.Fore.RESET + " ")
+     sleep(10)
+     exit(0)
+else:
+     print(f"Initializing...")
+
+clear = lambda: os.system('cls')
+session = requests.session()
+
+def GetRandomName():
+     return ''.join(random.choices(string.ascii_lowercase, k=user_pass_length))
+
+def Validate(username):
+     r = session.post(f"https://classic.animaljam.com/en/{username}/validate")
+     response = r.json()
+     if "error" in response:
+          return False
+     else:
+          return True
+
+def SignUp(username, password, avatar):
+     r = session.post("https://classic.animaljam.com/en/register", data={'screen_name': username, 'password': password, 'avatar_id': avatar, 'referral_code': referral_code})
+     if r.status_code == 200:
+          return True
+     else:
+          return False
+
+##### MAIN #####
+while True:
+     print("Generating a random username/password...")
+     user = GetRandomName()
+     pw = GetRandomName()
+     print(f"{colorama.Fore.GREEN}Generated username " + user + ".")
+     print(f"{colorama.Fore.RESET}Checking that this username is valid...")
+     isValid = Validate(user)
+     if isValid == True:
+          print(f"{colorama.Fore.GREEN}Username valid.")
+          print(f"{colorama.Fore.RESET}Creating account...")
+          create = SignUp(user, pw, 4)
+          if create == True:
+               print(f"{colorama.Fore.GREEN}Account created successfully..")
+               print(f"{colorama.Fore.YELLOW}+1500 GEMS In your Account")
+               print(f"{colorama.Fore.RED}Cooling down for {cooldown} seconds.")
+               print(colorama.Fore.RESET + " ")
+               sleep(cooldown)
+     else:
+          print(f"{colorama.Fore.RED}Username invalid.")
+          print(" ")
